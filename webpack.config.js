@@ -6,8 +6,8 @@ module.exports = {
     production: true,
     output: {
         path: __dirname + '/',
-        filename: 'tooltip.js',
-        library: 'tooltip',
+        filename: 'ractive-tooltip.min.js',
+        library: 'RactiveTooltip',
         libraryTarget: 'umd'
     },
     resolve: {
@@ -22,6 +22,7 @@ module.exports = {
             }
         })
     ],
+    
     module: {
         loaders: [
             {test: /\.styl$/, loader:'style-loader!css-loader!stylus-loader'},
