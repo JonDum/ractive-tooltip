@@ -1,6 +1,6 @@
 #ractive-tooltip
 
-![Tooltip in action](http://jondum.github.com/ractive-tooltip/demo/screenshot.png')
+![Tooltip in action](http://jondum.github.com/ractive-tooltip/demo/screenshot.png)
 
 ### Demo
 
