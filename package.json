@@ -1,0 +1,31 @@
+{
+  "name": "ractive-tooltip",
+  "version": "0.1.0",
+  "description": "Tooltip decorator for ractivejs",
+  "main": "src/tooltip.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jondum/ractive-tooltip"
+  },
+  "keywords": [
+    "ractivejs",
+    "ractive",
+    "decorator",
+    "tooltip",
+    "ractive-tooltip"
+  ],
+  "author": "Jonathan Dumaine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jondum/ractive-tooltip/issues"
+  },
+  "homepage": "https://github.com/jondum/ractive-tooltip",
+  "devDependencies": {
+    "style-loader": "^0.11.0",
+    "stylus-loader": "^1.1.0",
+    "webpack": "^1.8.5"
+  }
+}
