@@ -1,20 +1,22 @@
 
 require('./styles');
 
-var container;
+var win = window, doc = win.document;
 
 function positionTooltip(event, anchor, tooltip) {
+
     // Keep the tooltip near where the mouse is
     var mousePos = {x: event.pageX, y: event.pageY};
 
+    // account for the edges of the screen, no need to do left
     var topClip = mousePos.y - tooltip.offsetHeight - 5;
-    var rightClip = mousePos.x + tooltip.offsetWidth - window.innerWidth;
+    var rightClip = mousePos.x + tooltip.offsetWidth - win.innerWidth;
 
-    var top = (event.pageY - tooltip.offsetHeight - 5);
+    var top = event.pageY - tooltip.offsetHeight - 5;
     var left = event.pageX - 5;
 
     if(rightClip > 0) 
-        left -= rightClip;
+        left -= rightClip - 5;
 
     if(topClip < 0)
         top += tooltip.offsetHeight*2 - 5;
@@ -23,37 +25,24 @@ function positionTooltip(event, anchor, tooltip) {
     tooltip.style.top =  top + 'px';
 }
 
-function tooltipDecorator(node, content, direction) {
+function tooltipDecorator(node, content) {
 
     var tooltip, handlers, eventName;
-
-    direction = direction || 'above';
-
-    //TODO impl other directions
-    
-    if(!container) {
-        container = document.createElement('div');
-        container.className = 'ractive-tooltip-container';
-        document.body.appendChild(container);
-    }
 
     handlers = {
         mouseenter: function(event) {
 
+            // Create the tooltip
             if(!tooltip)
             {
-                // Create a tooltip...
-                tooltip = document.createElement('div');
-                tooltip.className = 'tooltip';
+                tooltip = doc.createElement('div');
+                tooltip.className = 'ractive-tooltip';
                 tooltip.textContent = content;
             }
 
-            node.classList.add('tooltipped');
-
-            if(!container.contains(tooltip))
-                container.appendChild(tooltip);
-
             positionTooltip(event, node, tooltip);
+
+            doc.body.appendChild(tooltip);
         },
 
         mousemove: function(event) {
@@ -67,11 +56,7 @@ function tooltipDecorator(node, content, direction) {
             if(!tooltip || !tooltip.parentNode)
                 return;
 
-            // Upheave the tooltip when the mouse leaves the node
             tooltip.parentNode.removeChild(tooltip);
-
-            //ensure node is position relative
-            node.classList.remove('tooltipped');
         }
     };
 
