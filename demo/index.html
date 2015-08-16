@@ -1,38 +1,58 @@
 
 <html>
     <head>
-        <title>Ractive-Datatable Demo</title>
+        <title>Ractive-Tooltip Demo</title>
 
         <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/chance/0.5.6/chance.min.js'></script>
+        
         <style>
 
             body {
                 background: #ebedf1;
                 font-family: 'Lucida Grande', 'Heveltica Nueue', 'Helvetica', 'sans-serif';
+                margin: 0;
             }
 
             demo {
-                padding: 3em;
                 display: block;
+                width: 100%;
+                height: 100%;
             }
 
-            .options { 
-                background: rgba(0,0,0,0.1);
-                margin-bottom: 3em;
-                padding: 3em;
-            }
-            
-            .options div + div {
-                margin-top: 20px;
+            demo > div {
+                position: absolute;
+                display: inline-block;
+                cursor: pointer;
+                background: #f5f5f5;
+                padding: 5em;
             }
 
-            .filter {
-                text-align: right;
-                margin-bottom: 10px;
+            #one {
+                left: 50%;
+                top: 50%;
+                padding:1em;
+                transform: translate(-50%, -50%);
             }
-            .center {
-                margin: 0 auto;
+
+            #two {
+                left: 0;
+                top: 0;
+            }
+
+            #three {
+                right: 0px;
+                top: 0;
+                padding: 3em 20em;
+            }
+
+            #four {
+                left: 0;
+                bottom: 0;
+            }
+
+            #five {
+                right: 0;
+                bottom: 0;
             }
 
         </style>
@@ -41,38 +61,21 @@
 
     <body>
 
-    
-
         <demo></demo>
 
-        <script src='../datatable.js'></script>
+        <script src='../ractive-tooltip.min.js'></script>
 
         <script id='template' type='text/ractive'>
 
-            <div class='options'>
-                <div>
-                    Add some data (randomly, sychronously generated, stutter not due to ractive-datatable)<br/>
-                    <button on-click='generate(200)'>Add 200 Rows</button>
-                    <button on-click='generate(2000)'>Add 2000 Rows</button>
-                </div>
-                <div>
-                    Page: <input value='{{page}}'> (pagination on bottom)
-                </div>
-                <div>
-                    Items per page: <input value='{{perpage}}'> (default 30)
-                </div>
-            </div>
+            <div id='one'   decorator='tooltip:Good job! {{message}}'>Hover over me</div>
 
-            <div class='center'>
-                <div class='filter'>
-                    Filter: <input type='text' value='{{filter}}'>
-                </div>
+            <div id='two'   decorator='tooltip:I am a tooltip!'>or me</div>
 
-                <!-- normally you wouldn't need to set all this on the html -->
-                <!-- most of it is for demo purposes-->
-                <datatable data='{{data}}' filter='{{filter}}' perpage='{{perpage}}' page='{{page}}'></datatable>
+            <div id='three' decorator='tooltip:I am a really long tooltip with lots of words!'>or me</div>
+            
+            <div id='four'  decorator='tooltip:I am a tooltip!'>or me</div>
 
-            </div>
+            <div id='five'  decorator='tooltip:I am a tooltip!'>or me</div>
 
         </script>
 
@@ -85,42 +88,13 @@
                 template: '#template',
 
                 data: {
-                    data: [],
-                    perpage: 30,
+                    message: 'Now try the corners',
                 },
 
-                components: {
-                    datatable:  datatable // don't do globals
-                    //datatable: require('ractive-datatable') // use a buildsystem
+                decorators: {
+                    tooltip:  RactiveTooltip // don't do globals
+                    //tooltip: require('ractive-tooltip') // use a buildsystem
                 },
-
-                generate: function(num) {
-
-                    var d = [];
-
-                    for(var i = 0; i < num; i++) {
-                        var o = {};
-                        o['First Name'] = chance.first();
-                        o['Last Name'] = chance.last();
-                        o['ID'] = chance.guid();
-                        o['Gender'] = chance.gender();
-                        o['Age'] = chance.age();
-                        o['Address'] = chance.address();
-                        o['Zip Code'] = chance.zip({plusfour: true});
-                        o['Created'] = chance.date();
-                        o['Last Login'] = chance.date();
-                        d.push(o);
-                    }
-
-                    var data = this.get('data')
-                    this.set('data', data.concat(d));
-                
-                },
-
-                oncomplete: function() {
-                    //debug stuff. Don't do this in production, kids
-                    window.d = this.findComponent('datatable');
-                }
 
             })
         
