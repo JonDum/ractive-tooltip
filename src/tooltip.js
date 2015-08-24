@@ -29,8 +29,12 @@ function tooltipDecorator(node, content) {
 
     var tooltip, handlers, eventName;
 
+
     handlers = {
         mouseenter: function(event) {
+
+            if(!content || content.length === 0)
+                return;
 
             // Create the tooltip
             if(!tooltip)
@@ -76,6 +80,8 @@ function tooltipDecorator(node, content) {
             if(tooltip)
                 tooltip.textContent = content;
 
+            if((!content || content.length === 0) && tooltip && tooltip.parentNode)
+                tooltip.parentNode.removeChild(tooltip);
         },
         teardown: function() {
             if(tooltip && tooltip.parentNode)
