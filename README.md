@@ -31,6 +31,14 @@ Use it
 <div decorator='tooltip:Tooltip for some {{thing}}'>I'm a {{thing}}</div>
 ```
 
+```
+<div decorator=‘tooltip:{{#if showHelp}}Do this and that to do this or that!{{/if}}”/>
+```
+
+```
+<div decorator=‘tooltip:{{translate dragHelpMessage}}”/>
+```
+
 Includes minimal styling under the class `.ractive-tooltip-container`. Styles are included in the javascript and added to the page on load this is ideal since a script like this is best loaded async after the initial page scripts have been loaded. If you don't want these styles in the javascript, copy src/tooltip.js and remove the `require('./styles.styl')`.
 
 ### API
