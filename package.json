@@ -1,6 +1,6 @@
 {
   "name": "ractive-tooltip",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tooltip decorator for ractivejs",
   "main": "src/tooltip.js",
   "scripts": {
