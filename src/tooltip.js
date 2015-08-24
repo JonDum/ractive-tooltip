@@ -70,6 +70,13 @@ function tooltipDecorator(node, content) {
     // Return an object with a `teardown()` method that removes the
     // event handlers when we no longer need them
     return {
+        update: function(newContent) {
+            content = newContent;
+
+            if(tooltip)
+                tooltip.textContent = content;
+
+        },
         teardown: function() {
             if(tooltip && tooltip.parentNode)
             {
