@@ -1,5 +1,5 @@
 
-require('./styles');
+require('./styles.styl');
 
 var win = window, doc = win.document;
 
@@ -8,27 +8,34 @@ function positionTooltip(event, anchor, tooltip) {
     // Keep the tooltip near where the mouse is
     var mousePos = {x: event.pageX, y: event.pageY};
 
-    // account for the edges of the screen, no need to do left
-    var topClip = mousePos.y - tooltip.offsetHeight - 5;
-    var rightClip = mousePos.x + tooltip.offsetWidth - win.innerWidth;
+    var tooltipWidth = tooltip.offsetWidth;
+    var tooltipHeight = tooltip.offsetHeight;
 
-    var top = event.pageY - tooltip.offsetHeight - 5;
-    var left = event.pageX - 5;
+    var top = mousePos.y - tooltip.offsetHeight - 5;
+    var left = mousePos.x - 5;
+
+    //if(mousePos.x > win.innerWidth*0.75)
+        //left -= tooltipWidth;
+
+    // account for the edges of the screen, no need to do left
+    var topClip = top - tooltipHeight - 5;
+    var rightClip = left + tooltipWidth - win.innerWidth;
+
 
     if(rightClip > 0) 
-        left -= rightClip - 5;
+        left -= tooltipWidth - 5;
 
     if(topClip < 0)
-        top += tooltip.offsetHeight*2 - 5;
+        top += tooltipHeight*2 - 5;
 
     tooltip.style.left = left + 'px';
     tooltip.style.top =  top + 'px';
 }
 
+
 function tooltipDecorator(node, content) {
 
     var tooltip, handlers, eventName;
-
 
     handlers = {
         mouseenter: function(event) {
