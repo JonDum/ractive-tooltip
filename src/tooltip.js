@@ -22,7 +22,7 @@ function positionTooltip(event, anchor, tooltip) {
     var rightClip = left + tooltipWidth - win.innerWidth;
 
 
-    if(rightClip > 0) 
+    if(rightClip > 0)
         left -= tooltipWidth - 5;
 
     if(topClip < 0)
@@ -37,38 +37,44 @@ function tooltipDecorator(node, content) {
 
     var tooltip, handlers, eventName;
 
-    handlers = {
-        mouseenter: function(event) {
+	var cursorbegin = function (event) {
 
-            if(!content || content.length === 0)
-                return;
+        if(!content || content.length === 0)
+            return;
 
-            // Create the tooltip
-            if(!tooltip)
-            {
-                tooltip = doc.createElement('div');
-                tooltip.className = 'ractive-tooltip';
-                tooltip.textContent = content;
-            }
-
-            positionTooltip(event, node, tooltip);
-
-            doc.body.appendChild(tooltip);
-        },
-
-        mousemove: function(event) {
-            if(!tooltip)
-                return;
-            positionTooltip(event, node, tooltip);
-        },
-
-        mouseleave: function() {
-
-            if(!tooltip || !tooltip.parentNode)
-                return;
-
-            tooltip.parentNode.removeChild(tooltip);
+        // Create the tooltip
+        if(!tooltip)
+        {
+            tooltip = doc.createElement('div');
+            tooltip.className = 'ractive-tooltip';
+            tooltip.textContent = content;
         }
+
+        positionTooltip(event, node, tooltip);
+
+        doc.body.appendChild(tooltip);
+	}, cursormove = function (event) {
+
+		if(!tooltip) {
+			cursorbegin(event);
+			return;
+		}
+		positionTooltip(event, node, tooltip);
+	}, cursorend = function (event) {
+
+		if(!tooltip || !tooltip.parentNode)
+			return;
+
+		tooltip.parentNode.removeChild(tooltip);
+	};
+
+    handlers = {
+        mouseenter: cursorbegin,
+		touchstart: cursorbegin,
+        mousemove: cursormove,
+		touchmove: cursormove,
+        mouseleave: cursorend,
+		touchend: cursorend
     };
 
     // Add event handlers to the node
@@ -103,6 +109,6 @@ function tooltipDecorator(node, content) {
             }
         }
     };
-};
+}
 
 module.exports = tooltipDecorator;
