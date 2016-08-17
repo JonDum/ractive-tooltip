@@ -37,7 +37,7 @@ function tooltipDecorator(node, content) {
 
     var tooltip, handlers, eventName;
 
-    var cursorbegin = function (event) {
+    var start = function(event) {
 
         if(!content || content.length === 0)
             return;
@@ -53,14 +53,18 @@ function tooltipDecorator(node, content) {
         positionTooltip(event, node, tooltip);
 
         doc.body.appendChild(tooltip);
-    }, cursormove = function (event) {
+    }, 
+
+    move = function(event) {
 
         if(!tooltip) {
-            cursorbegin(event);
+            start(event);
             return;
         }
         positionTooltip(event, node, tooltip);
-    }, cursorend = function (event) {
+    }, 
+
+    end = function(event) {
 
         if(!tooltip || !tooltip.parentNode)
             return;
@@ -69,12 +73,12 @@ function tooltipDecorator(node, content) {
     };
 
     handlers = {
-        mouseenter: cursorbegin,
-        touchstart: cursorbegin,
-        mousemove: cursormove,
-        touchmove: cursormove,
-        mouseleave: cursorend,
-        touchend: cursorend
+        mouseenter: start,
+        touchstart: start,
+        mousemove: move,
+        touchmove: move,
+        mouseleave: end,
+        touchend: end
     };
 
     // Add event handlers to the node
